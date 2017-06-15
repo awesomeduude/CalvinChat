@@ -9,7 +9,7 @@ require('dotenv').config()
 
 const index = require('./routes/index');
 const users = require('./routes/users');
-const chat = require('./routes/chat');
+const chats = require('./routes/chats');
 
 const app = express();
 
@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/chat', chat)
+app.use('/chats', chats)
 
 const database = process.env.MONGODB_URI
 mongoose.connect(database)
