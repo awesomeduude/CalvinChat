@@ -2,19 +2,23 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
-  state = {users:[]}
+  state = {users:{}}
 
   componentDidMount() {
     fetch('/users')
       .then(res => res.json())
-      .then(users => this.setState({ users }))
+      .then(users => {
+        this.setState({ users })
+      })
   }
   render() {
+    const { users } = this.state
     return (
       <div className="App">
         <h1>Users</h1>
-        {this.state.users.map(user =>
-          <div key={user.id}>{user.username}</div>
+
+        {Object.keys(users).map(id =>
+          <div key={id}>{users[id].username}</div>
         )}
       </div>
     );
