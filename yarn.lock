@@ -348,6 +348,10 @@ fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
+fecha@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/fecha/-/fecha-2.3.1.tgz#921b4e5a9d331aaa9b65c1634b26fc45945f6421"
+
 finalhandler@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/finalhandler/-/finalhandler-1.0.3.tgz#ef47e77950e999780e86022a560e3217e0d0cc89"

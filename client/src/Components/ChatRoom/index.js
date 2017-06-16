@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import io from 'socket.io-client'
+import fecha from 'fecha'
 import './ChatRoom.css';
+
 const socket = io()
 
 class ChatRoom extends Component {
@@ -36,10 +38,9 @@ class ChatRoom extends Component {
 
     this.setState((prevState) => {
       const { messages } = prevState
-      const newMessage = payload.message
 
       const newState = {
-        messages: messages.concat([newMessage])
+        messages: messages.concat([payload])
       }
 
       return newState
@@ -61,6 +62,7 @@ class ChatRoom extends Component {
         this.setState({
           userIds: users,
           messageIds: messages,
+          usernames: this.state.usernames.concat([this.props.user.username]),
           chatName
 
         })
@@ -78,7 +80,13 @@ class ChatRoom extends Component {
   }
   sendMessage = (e) => {
     e.preventDefault()
-    const message = this.messageInput.value
+    const message = {
+      content: this.messageInput.value,
+      from: this.props.user.username,
+      created: Date.now(),
+      room: this.props.chat._id,
+
+    }
 
     this.setState((prevState) => {
       const { messages } = prevState
@@ -88,31 +96,46 @@ class ChatRoom extends Component {
 
       return newState
     })
-    socket.emit('send message', {
-      room: this.props.chat._id,
-      from: this.props.user.username,
-      message
-    })
+    socket.emit('send message', message)
   }
   render() {
-    //const { messages } = this.state
+    const { messages, chatName, usernames } = this.state
 
     return (
       <div className='ChatRoom'>
-          <h1>{this.props.params.id}</h1>
-          <h2>{this.state.chatName}</h2>
-          <ul>
-            {this.state.usernames.map(username =>
-              <li key={username}>{username}</li>
-            )}
-          </ul>
-          <form onSubmit={this.sendMessage}>
-            <input type="text" ref={(input) => this.messageInput = input}/>
-            <button type='submit'>Send</button>
-          </form>
-          {this.state.messages.map(message =>
-            <p key={Math.random()}>{message}</p>
-          )}
+          <h1>Room Id: {this.props.params.id}</h1>
+          <h2>{chatName}</h2>
+          <h3>
+
+            {usernames.map((username, i) => {
+              //adds a comma after the userames
+              const formatted = usernames.length - 1 === i ? username : username +', '
+              return <span key={username}>{formatted}</span>
+
+            })}
+
+          </h3>
+          <div className="messages">
+            {messages.map(message =>{
+              const date = fecha.format(message.created, 'MM-DD-YYYY HH:mm A')
+              let style = {}
+              if (message.from == this.props.user.username) {
+                style['textAlign'] = 'right'
+              }
+              return (
+                <div style={style} key={Math.random()} className="message">
+                  <p>{message.from}</p>
+                  <p>{message.content}</p>
+                  <p>{date}</p>
+                </div>
+              )
+            })}
+            <form onSubmit={this.sendMessage}>
+              <input type="text" ref={(input) => this.messageInput = input}/>
+              <button type='submit'>Send</button>
+            </form>
+          </div>
+
       </div>
     )
   }

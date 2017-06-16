@@ -1,0 +1,49 @@
+.ChatRoom h1, .ChatRoom h2, .ChatRoom h3 {
+  text-align: center;
+}
+
+.ChatRoom .messages {
+  display: flex;
+  flex-direction: column;
+  padding: 0 7em;
+  max-width: 25em;
+  margin: 0 auto
+}
+.message {
+  margin: 0.5em 0;
+}
+.message p {
+  margin: 0;
+  font-size: 14px;
+}
+.message p:nth-child(odd) {
+  font-size: 10px;
+}
+.messages form {
+
+  display: flex;
+  justify-content: center;
+  margin: 2em auto 0 auto;
+  height: 2em;
+  padding: .3em;
+  max-width: 20em;
+  width: 100%
+
+}
+.messages input {
+  box-sizing: border-box;
+  height: 100%;
+  padding: .2em;
+  flex-grow: 3;
+
+}
+.messages button {
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  flex-grow: 2;
+  background-color: #0099cc;
+  outline: none;
+  border: none;
+
+}
