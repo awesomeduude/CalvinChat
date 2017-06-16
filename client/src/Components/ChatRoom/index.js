@@ -13,7 +13,8 @@ class ChatRoom extends Component {
       this.state = {
         chatName: '',
         messages: [],
-        usernames: []
+        usernames: [],
+        messageInput: ''
       }
     socket.on('receive message', (payload) => {
       this.updateChatFromSockets(payload);
@@ -81,7 +82,7 @@ class ChatRoom extends Component {
   sendMessage = (e) => {
     e.preventDefault()
     const message = {
-      content: this.messageInput.value,
+      content: this.state.messageInput,
       from: this.props.user.username,
       created: Date.now(),
       room: this.props.chat._id,
@@ -97,6 +98,14 @@ class ChatRoom extends Component {
       return newState
     })
     socket.emit('send message', message)
+    this.setState({
+      messageInput: ''
+    })
+  }
+  updateInput = (e) => {
+    this.setState({
+      messageInput: e.target.value
+    })
   }
   render() {
     const { messages, chatName, usernames } = this.state
@@ -132,7 +141,7 @@ class ChatRoom extends Component {
               )
             })}
             <form onSubmit={this.sendMessage}>
-              <input type="text" ref={(input) => this.messageInput = input}/>
+              <input type="text" onChange={this.updateInput} value={this.state.messageInput}/>
               <button type='submit'>Send</button>
             </form>
           </div>
