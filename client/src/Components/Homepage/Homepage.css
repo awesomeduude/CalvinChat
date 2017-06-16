@@ -13,9 +13,11 @@
   outline:none;
   color: #222;
   border: none;
+  width: 100%;
 }
 .Homepage .link {
-  margin: 0 auto;
+  margin: 1em auto;
   text-align: center;
+  width: 15em;
 
 }

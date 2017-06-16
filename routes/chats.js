@@ -30,10 +30,16 @@ router.post('/', (req,res) => {
 //add user to chat
 router.put('/', (req,res) => {
   const { userId, chatroomId } = req.body
-
+  Chat.getChatById(chatroomId, (err, chatroom) => {
+    if (err) console.log(err);
+    else {
+      chatroom.users.push(userId)
+      chatroom.save()
+    }
+  })
   User.addUserToChatroom(userId, chatroomId, (user) => {
     return res.json(user)
-
   })
+
 })
 module.exports = router
