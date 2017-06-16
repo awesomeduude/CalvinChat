@@ -30,10 +30,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+if (process.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/client/build')))
+}
 app.use('/users', users);
 app.use('/chats', chats)
-
+app.use('/', index);
 const database = process.env.MONGODB_URI
 mongoose.connect(database)
 
