@@ -19,7 +19,7 @@ class JoinChat extends Component {
     fetch('/users', init)
        .then(res => res.json())
        .then(user => {
-         this.setState({user})
+         this.props.setUser(user)
          this.joinChatroom(user._id)
        })
   }
@@ -37,11 +37,11 @@ class JoinChat extends Component {
     }
     fetch('/chats', init)
       .then(res => res.json())
-      .then(user => {
-        console.log(user)
+      .then(chatroom => {
+        console.log(chatroom)
         //gets the most recently added chatroom
-        const chatroomId = user.chatRooms[user.chatRooms.length-1]
-        
+        const chatroomId = chatroom._id
+        this.props.setChat(chatroom)
         this.context.router.push(`/chatrooms/${chatroomId}`)
       })
   }

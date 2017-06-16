@@ -4,7 +4,7 @@ import Form from '../Form'
 import './CreateChat.css';
 
 class CreateChat extends Component {
-  state = {user: {}}
+
   createUser = (e) => {
     e.preventDefault()
     const init = {
@@ -22,7 +22,7 @@ class CreateChat extends Component {
        .then(res => res.json())
        .then(user => {
 
-         this.setState({user})
+         this.props.setUser(user)
          this.createChatroom()
        })
 
@@ -31,7 +31,7 @@ class CreateChat extends Component {
     const init = {
       method: 'POST',
       body: JSON.stringify({
-        userId: this.state.user._id,
+        userId: this.props.user._id,
         chatName: this.chatNameInput.value
       }),
       headers: {
@@ -44,6 +44,7 @@ class CreateChat extends Component {
       .then(res => res.json())
       .then(chatroom => {
         if (chatroom.users[0]) {
+          this.props.setChat(chatroom)
           this.context.router.push(`/chatrooms/${chatroom._id}`)
         }
 
