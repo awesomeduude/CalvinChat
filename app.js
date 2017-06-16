@@ -5,13 +5,18 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
+const socket_io = require('socket.io')
 require('dotenv').config()
+
+const app = express();
+
+const io = socket_io()
+app.io = io
 
 const index = require('./routes/index');
 const users = require('./routes/users');
-const chats = require('./routes/chats');
+const chats = require('./routes/chats')(io);
 
-const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
