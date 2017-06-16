@@ -1,0 +1,17 @@
+.App {
+  font-family: arial, sans-serif;
+}
+h1 {
+  font-size: 48px;
+  text-align: center;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+h3 {
+  font-size: 24px;
+  text-align: center;
+  font-style: italic;
+  font-weight: normal;
+
+  margin-top: 0.25em
+}

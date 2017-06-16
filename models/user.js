@@ -43,3 +43,6 @@ module.exports.getAllUsers = (callback) => {
     callback(userMap)
   });
 }
+module.exports.getUserById = (id, callback) => {
+  User.findById(id, callback)
+}
