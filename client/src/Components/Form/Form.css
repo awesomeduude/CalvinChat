@@ -1,11 +1,7 @@
-.ChatForm * {
+.Form * {
   box-sizing: border-box;
 }
-.ChatForm h1 {
-  text-align:center;
-  font-size: 3em;
-}
-.ChatForm form {
+.Form form {
   margin: 0 auto;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -16,18 +12,18 @@
   text-align:center;
   font-size: 1rem;
 }
-.ChatForm label {
+.Form label {
   text-align:left;
   display:block;
   margin-bottom: 5px;
 }
-.ChatForm fieldset {
+.Form fieldset {
   margin: 0 0 1.2rem 0;
   padding:0;
   border: none;
   width: 100%;
 }
-.ChatForm input {
+.Form input {
   width: 100%;
   font-size: .9rem;
   padding: .5em .7em;
@@ -36,11 +32,11 @@
   border: 1px solid #999;
   display:inline-block;
 }
-.ChatForm input:focus {
+.Form input:focus {
   outline: none;
   border: 1px solid chartreuse;
 }
-.ChatForm button {
+.Form button {
   font-size: .9rem;
   border-radius: 5px;
   padding: .75em 1.5em;

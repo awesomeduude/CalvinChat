@@ -46,3 +46,6 @@ module.exports.getAllChats = (callback) => {
     callback(chatMap)
   });
 }
+module.exports.getChatById  = (id, callback) => {
+  Chat.findById(id, callback)
+}

@@ -46,3 +46,17 @@ module.exports.getAllUsers = (callback) => {
 module.exports.getUserById = (id, callback) => {
   User.findById(id, callback)
 }
+module.exports.addUserToChatroom = (userId, chatroomId, callback) => {
+  console.log('adding to chatroom');
+  User.findById(mongoose.Types.ObjectId(userId), (err, user) => {
+    if (err) console.log(err)
+    else {
+      const chatId = mongoose.Types.ObjectId(chatroomId)
+
+      user.chatRooms.push(chatId)
+      user.save()
+      
+      callback(user)
+    }
+  })
+}

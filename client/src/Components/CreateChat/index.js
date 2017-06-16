@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import './ChatForm.css';
+import PropTypes from 'prop-types'
+import Form from '../Form'
+import './CreateChat.css';
 
-class ChatForm extends Component {
+class CreateChat extends Component {
   state = {user: {}}
   createUser = (e) => {
     e.preventDefault()
@@ -15,7 +17,7 @@ class ChatForm extends Component {
         'Content-Type': 'application/json'
       },
     }
-    console.log('user init', init);
+
     fetch('/users', init)
        .then(res => res.json())
        .then(user => {
@@ -44,14 +46,14 @@ class ChatForm extends Component {
         if (chatroom.users[0]) {
           this.context.router.push(`/chatrooms/${chatroom._id}`)
         }
-        //redirect to chatroom id
+
       })
   }
   render() {
     return (
-      <div className='ChatForm'>
+      <div className='CreateChat'>
         <h1>Create a New ChatRoom</h1>
-        <form>
+        <Form>
           <fieldset>
             <label htmlFor='username'>Username</label>
             <input id='username' type='text' placeholder='Enter a username'
@@ -66,12 +68,12 @@ class ChatForm extends Component {
           </fieldset>
 
           <button type='submit' onClick={this.createUser}>Create Chatroom</button>
-        </form>
+        </Form>
       </div>
     )
   }
 }
-ChatForm.contextTypes = {
-  router: React.PropTypes.object.isRequired
+CreateChat.contextTypes = {
+  router: PropTypes.object.isRequired
 }
-export default ChatForm;
+export default CreateChat;
