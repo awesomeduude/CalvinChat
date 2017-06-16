@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import io from 'socket.io-client'
 import './ChatRoom.css';
 const socket = io()
@@ -9,17 +10,30 @@ class ChatRoom extends Component {
     userIds: [],
     chatName: '',
     messageIds: [],
-    messages: []
+    messages: [],
+    usernames: []
   }
   constructor(props) {
     super(props)
     socket.on('receive message', (payload) => {
-      console.log('received message', payload)
       this.updateChatFromSockets(payload);
-   })
+    })
+    socket.on('joined chat', (payload) => {
+      console.log('joined chat', payload)
+      this.updateUsersFromSockets(payload)
+    })
+  }
+  updateUsersFromSockets = (payload) => {
+    this.setState((prevState) => {
+      const { usernames } = prevState
+      const newUsername = payload.username
+      return {
+        usernames: usernames.concat([newUsername])
+      }
+    })
   }
   updateChatFromSockets = (payload) => {
-    console.log('messages before', this.state.messages)
+
     this.setState((prevState) => {
       const { messages } = prevState
       const newMessage = payload.message
@@ -32,10 +46,17 @@ class ChatRoom extends Component {
     })
   }
   componentDidMount() {
+    if (!this.props.user.username) {
+      console.log('not logged in')
+      this.context.router.push('/home')
+      return
+    }
     const { id } = this.props.params
     fetch(`/chats/${id}`)
       .then(res => res.json())
       .then(chat => {
+
+        console.log('user',this.props.user)
         const { users, chatName, messages } = chat
         this.setState({
           userIds: users,
@@ -45,6 +66,10 @@ class ChatRoom extends Component {
         })
         socket.emit('room', {room: this.props.chat._id});
       })
+    socket.emit('joining chat', {
+      username: this.props.user.username,
+      room: this.props.chat._id,
+    })
   }
   componentWillUnmount() {
     socket.emit('leave room', {
@@ -70,16 +95,15 @@ class ChatRoom extends Component {
     })
   }
   render() {
-   const { messages } = this.state
-   console.log('render messages', messages)
+    //const { messages } = this.state
 
     return (
       <div className='ChatRoom'>
           <h1>{this.props.params.id}</h1>
           <h2>{this.state.chatName}</h2>
           <ul>
-            {this.state.userIds.map(id =>
-              <li key={id}>{id}</li>
+            {this.state.usernames.map(username =>
+              <li key={username}>{username}</li>
             )}
           </ul>
           <form onSubmit={this.sendMessage}>
@@ -93,5 +117,7 @@ class ChatRoom extends Component {
     )
   }
 }
-
+ChatRoom.contextTypes = {
+  router: PropTypes.object.isRequired
+}
 export default ChatRoom;

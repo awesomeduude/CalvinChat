@@ -51,16 +51,20 @@ module.exports = (io) => {
       console.log('user disconnected');
     })
     socket.on('room', (data) => {
-      console.log('joining room', data);
+
       socket.join(data.room)
     })
     socket.on('leave room', (data) => {
-      console.log('leaving room', data);
+
       socket.leave(data.room)
     })
     socket.on('send message', (data) => {
-      console.log('send message', data);
+
       socket.broadcast.to(data.room).emit('receive message', data)
+    })
+    socket.on('joining chat', (data) => {
+      console.log('joining chat', data);
+      socket.broadcast.to(data.room).emit('joined chat', data)
     })
 
   });
