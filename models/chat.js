@@ -1,22 +1,26 @@
 const mongoose = require('mongoose')
+const shortid = require('shortid')
 const { Schema } = mongoose
-const { ObjectId } = Schema.Types
 
 //represents a chatroom
 const chatSchema = Schema({
+  _id: {
+    type: String,
+    'default': shortid.generate
+  },
   chatName: String,
-  users: [ObjectId],
+  users: [String],
   messages: [{
     from: String,
     created: Date,
-    room: ObjectId,
+    room: String,
     content: String
   }],
   created: {
     type: Date,
     default: Date.now
   },
-  createdBy: ObjectId,
+  createdBy: String,
   updated: {
     type: Date,
     default: Date.now
@@ -27,7 +31,7 @@ const chatSchema = Schema({
 const Chat = module.exports = mongoose.model('Chat', chatSchema)
 
 module.exports.createNewChat = (userId, chatName, callback) => {
-  const id = mongoose.Types.ObjectId(userId);
+  const id = userId
   const newChat = new Chat({
     users: [id],
     messages:[],

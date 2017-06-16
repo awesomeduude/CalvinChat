@@ -1,14 +1,18 @@
 const mongoose = require('mongoose')
+const shortid = require('shortid')
 const { Schema } = mongoose
-const { ObjectId } = Schema.Types
 
 //represents a single message sent in a chat
 const userSchema = Schema({
+  _id: {
+    type: String,
+    'default': shortid.generate
+  },
   created: {
     type: Date,
     default: Date.now
   },
-  chatRooms: [ObjectId],
+  chatRooms: [String],
   username: String
 
 })
@@ -47,10 +51,10 @@ module.exports.getUserById = (id, callback) => {
 }
 module.exports.addUserToChatroom = (userId, chatroomId, callback) => {
   console.log('adding to chatroom');
-  User.findById(mongoose.Types.ObjectId(userId), (err, user) => {
+  User.findById(userId, (err, user) => {
     if (err) console.log(err)
     else {
-      const chatId = mongoose.Types.ObjectId(chatroomId)
+      const chatId = chatroomId
 
       user.chatRooms.push(chatId)
       user.save()
