@@ -6,8 +6,6 @@ class App extends Component {
 
     return (
       <main className='App'>
-        <h1>Instachat</h1>
-        <h3>Instantly create a private chatroom!</h3>
         {this.props.children}
       </main>
     )

@@ -1,0 +1,21 @@
+.Homepage h3 {
+  font-size: 24px;
+  text-align: center;
+  font-style: italic;
+  font-weight: normal;
+
+  margin-top: 0.25em
+}
+.Homepage button {
+  font-size: 1.25em;
+  padding: .75em 1.5em;
+  background-color:chartreuse;
+  outline:none;
+  color: #222;
+  border: none;
+}
+.Homepage .link {
+  margin: 0 auto;
+  text-align: center;
+
+}

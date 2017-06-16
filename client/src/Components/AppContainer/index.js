@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Router, Route, browserHistory } from 'react-router'
+import { Router, Route, browserHistory, IndexRedirect } from 'react-router'
 import PropTypes from 'prop-types'
 
 import App from '../App';
 import ChatForm from '../ChatForm';
 import ChatRoom from '../ChatRoom'
+import Homepage from '../Homepage'
 
 class AppContainer extends Component {
   getChildContext() {
@@ -16,6 +17,8 @@ class AppContainer extends Component {
     return (
       <Router history={browserHistory}>
         <Route path='/' component={App}>
+          <IndexRedirect to='/home' />
+          <Route path='home' component={Homepage} />
           <Route path='chat' component={ChatForm} />
           <Route path="chatrooms/:id" component={ChatRoom} />
         </Route>

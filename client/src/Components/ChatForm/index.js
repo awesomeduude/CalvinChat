@@ -50,6 +50,7 @@ class ChatForm extends Component {
   render() {
     return (
       <div className='ChatForm'>
+        <h1>Create a New ChatRoom</h1>
         <form>
           <fieldset>
             <label htmlFor='username'>Username</label>

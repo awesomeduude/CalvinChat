@@ -1,5 +1,6 @@
 .App {
   font-family: arial, sans-serif;
+  color: #222
 }
 h1 {
   font-size: 48px;
@@ -7,11 +8,6 @@ h1 {
   padding-bottom: 0;
   margin-bottom: 0;
 }
-h3 {
-  font-size: 24px;
-  text-align: center;
-  font-style: italic;
-  font-weight: normal;
-
-  margin-top: 0.25em
+button {
+  cursor: pointer;
 }
