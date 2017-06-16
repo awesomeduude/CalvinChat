@@ -39,7 +39,6 @@ module.exports.getAllUsers = (callback) => {
     users.forEach((user) => {
       userMap[user._id] = user;
     });
-    console.log(userMap);
     callback(userMap)
   });
 }
@@ -55,7 +54,7 @@ module.exports.addUserToChatroom = (userId, chatroomId, callback) => {
 
       user.chatRooms.push(chatId)
       user.save()
-      
+
       callback(user)
     }
   })

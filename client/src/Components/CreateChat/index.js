@@ -39,7 +39,7 @@ class CreateChat extends Component {
         'Content-Type': 'application/json'
       },
     }
-    console.log('chat init', init);
+    
     fetch('/chats', init)
       .then(res => res.json())
       .then(chatroom => {

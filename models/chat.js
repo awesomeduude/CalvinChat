@@ -6,7 +6,12 @@ const { ObjectId } = Schema.Types
 const chatSchema = Schema({
   chatName: String,
   users: [ObjectId],
-  messages: [ObjectId],
+  messages: [{
+    from: String,
+    created: Date,
+    room: ObjectId,
+    content: String
+  }],
   created: {
     type: Date,
     default: Date.now
@@ -25,7 +30,7 @@ module.exports.createNewChat = (userId, chatName, callback) => {
   const id = mongoose.Types.ObjectId(userId);
   const newChat = new Chat({
     users: [id],
-    messages: [],
+    messages:[],
     created: Date.now(),
     createdBy: id,
     chatName

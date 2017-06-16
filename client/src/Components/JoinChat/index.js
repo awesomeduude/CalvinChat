@@ -42,6 +42,7 @@ class JoinChat extends Component {
         //gets the most recently added chatroom
         const chatroomId = chatroom._id
         this.props.setChat(chatroom)
+        console.log(chatroom)
         this.context.router.push(`/chatrooms/${chatroomId}`)
       })
   }

@@ -8,24 +8,22 @@ const socket = io()
 
 class ChatRoom extends Component {
 
-  state = {
-    userIds: [],
-    chatName: '',
-    messageIds: [],
-    messages: [],
-    usernames: []
-  }
   constructor(props) {
     super(props)
+      this.state = {
+        chatName: '',
+        messages: [],
+        usernames: []
+      }
     socket.on('receive message', (payload) => {
       this.updateChatFromSockets(payload);
     })
     socket.on('joined chat', (payload) => {
-      console.log('joined chat', payload)
       this.updateUsersFromSockets(payload)
     })
   }
   updateUsersFromSockets = (payload) => {
+
     this.setState((prevState) => {
       const { usernames } = prevState
       const newUsername = payload.username
@@ -48,7 +46,6 @@ class ChatRoom extends Component {
   }
   componentDidMount() {
     if (!this.props.user.username) {
-      console.log('not logged in')
       this.context.router.push('/home')
       return
     }
@@ -57,13 +54,12 @@ class ChatRoom extends Component {
       .then(res => res.json())
       .then(chat => {
 
-        console.log('user',this.props.user)
-        const { users, chatName, messages } = chat
+        const { chatName, messages, users } = chat
+
         this.setState({
-          userIds: users,
-          messageIds: messages,
-          usernames: this.state.usernames.concat([this.props.user.username]),
-          chatName
+          messages: messages,
+          usernames: users,
+          chatName,
 
         })
         socket.emit('room', {room: this.props.chat._id});
@@ -73,10 +69,14 @@ class ChatRoom extends Component {
       room: this.props.chat._id,
     })
   }
+  componentWillReceiveProps(nextProps) {
+    socket.emit('room', {room: this.props.chat._id})
+  }
   componentWillUnmount() {
     socket.emit('leave room', {
       room: this.props.chat._id
     })
+
   }
   sendMessage = (e) => {
     e.preventDefault()
@@ -117,7 +117,8 @@ class ChatRoom extends Component {
           </h3>
           <div className="messages">
             {messages.map(message =>{
-              const date = fecha.format(message.created, 'MM-DD-YYYY HH:mm A')
+
+              const date = fecha.format(new Date(message.created), 'MM-DD-YYYY HH:mm A')
               let style = {}
               if (message.from == this.props.user.username) {
                 style['textAlign'] = 'right'

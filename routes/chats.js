@@ -14,7 +14,19 @@ module.exports = (io) => {
     Chat.getChatById(id, (err, chat) => {
       if (err) res.status(404)
       else {
-        return res.json(chat)
+        User.getAllUsers(userMap => {
+          let usernames = []
+
+          chat.users.forEach((userId) => {
+
+            usernames.push(userMap[userId].username)
+          });
+          
+          let newChat = Object.assign(chat.toObject(), {users: usernames})
+
+
+          return res.json(newChat)
+        })
       }
     })
   })
@@ -59,10 +71,20 @@ module.exports = (io) => {
       socket.leave(data.room)
     })
     socket.on('send message', (data) => {
-
+      //add message to db
       socket.broadcast.to(data.room).emit('receive message', data)
+
+      Chat.getChatById(data.room, (err, chatroom) => {
+        if (err) console.log(err);
+        else {
+          chatroom.messages.push(data)
+          chatroom.save()
+        }
+
+      })
     })
     socket.on('joining chat', (data) => {
+      //add to db
       console.log('joining chat', data);
       socket.broadcast.to(data.room).emit('joined chat', data)
     })
