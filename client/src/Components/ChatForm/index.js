@@ -41,7 +41,9 @@ class ChatForm extends Component {
     fetch('/chats', init)
       .then(res => res.json())
       .then(chatroom => {
-
+        if (chatroom.users[0]) {
+          this.context.router.push(`/chatrooms/${chatroom._id}`)
+        }
         //redirect to chatroom id
       })
   }
@@ -52,13 +54,13 @@ class ChatForm extends Component {
           <fieldset>
             <label htmlFor='username'>Username</label>
             <input id='username' type='text' placeholder='Enter a username'
-              ref={(input) => { this.usernameInput = input; }}
+              ref={(input) => { this.usernameInput = input }}
             />
           </fieldset>
           <fieldset>
             <label htmlFor='roomName'>Chat Name</label>
             <input id='roomName' type='text' placeholder='Enter a name for this chatroom'
-             ref={(input) => { this.chatNameInput = input; }}
+             ref={(input) => { this.chatNameInput = input }}
              />
           </fieldset>
 
@@ -68,5 +70,7 @@ class ChatForm extends Component {
     )
   }
 }
-
+ChatForm.contextTypes = {
+  router: React.PropTypes.object.isRequired
+}
 export default ChatForm;
