@@ -1,21 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Router, Route, browserHistory, IndexRedirect } from 'react-router'
 import PropTypes from 'prop-types'
 
-import App from '../App';
-import CreateChat from '../CreateChat';
+import App from '../App'
+import CreateChat from '../CreateChat'
 import ChatRoom from '../ChatRoom'
 import Homepage from '../Homepage'
 import JoinChat from '../JoinChat'
 
 class AppContainer extends Component {
-  getChildContext() {
-      return {
-        router: browserHistory
-      }
-  }
-  render() {
-    return (
+    getChildContext() {
+        return {router: browserHistory}
+    }
+    render() {
+        return (
       <Router history={browserHistory}>
         <Route path='/' component={App}>
           <IndexRedirect to='/home' />
@@ -26,10 +24,8 @@ class AppContainer extends Component {
 
         </Route>
       </Router>
-    )
-  }
+        )
+    }
 }
-AppContainer.childContextTypes = {
-  router: PropTypes.object.isRequired
-}
-export default AppContainer;
+AppContainer.childContextTypes = {router: PropTypes.object.isRequired}
+export default AppContainer

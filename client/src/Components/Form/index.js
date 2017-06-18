@@ -2,16 +2,16 @@ import React, { Component } from 'react'
 import './Form.css'
 
 class Form extends Component {
-  render() {
+    render() {
 
-    return (
-      <div className="Form">
+        return (
+      <div className='Form'>
         <form>
           {this.props.children}
         </form>
       </div>
-    )
-  }
+        )
+    }
 }
 
 export default Form
