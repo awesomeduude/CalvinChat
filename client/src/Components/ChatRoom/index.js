@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import io from 'socket.io-client'
+import ChatHeader from '../ChatHeader'
+import ChatWindow from '../ChatWindow'
 import './ChatRoom.css'
 
 const socket = io()
@@ -14,8 +16,8 @@ class ChatRoom extends Component {
             usernames: [],
             messageInput: ''
         }
-        socket.on('receive message', addMessageToState)
-        socket.on('joined chat', updateUsers)
+        socket.on('receive message', this.addMessageToState)
+        socket.on('joined chat', this.updateUsers)
     }
     updateUsers = user => {
         this.setState(({ usernames }) => {
@@ -28,12 +30,12 @@ class ChatRoom extends Component {
         })
     }
     componentDidMount() {
+        const { user, params, chat } = this.props
+        const { id } = params
+        
         if (!user.username) {
             return this.context.router.push('/home')
         }
-        const { user, params, chat } = this.props
-        const { id } = params
-
         fetch(`/chats/${id}`)
           .then(res => res.json())
           .then(({ chatName, messages, users, _id }) => {
@@ -66,7 +68,7 @@ class ChatRoom extends Component {
             room: chat._id
         }
 
-        addMessageToState(message)
+        this.addMessageToState(message)
         socket.emit('send message', message)
         this.setState({messageInput: ''})
     }
