@@ -1,12 +1,13 @@
 const mongoose = require('mongoose')
-const shortid = require('shortid')
 const { Schema } = mongoose
+
+const { generateRandomId } = require('./random')
 
 //represents a chatroom
 const chatSchema = Schema({
   _id: {
     type: String,
-    'default': shortid.generate
+    default: generateRandomId()
   },
   chatName: String,
   users: [String],

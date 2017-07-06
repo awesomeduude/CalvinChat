@@ -5,7 +5,6 @@
   "scripts": {
     "start": "node ./bin/www",
     "heroku-postbuild": "cd client && yarn --production=false && yarn run build"
-
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -17,9 +16,9 @@
     "jade": "~1.11.0",
     "mongoose": "^4.10.6",
     "morgan": "~1.8.1",
+    "rand-token": "^0.3.0",
     "react-router": "3",
     "serve-favicon": "~2.4.2",
-    "shortid": "^2.2.8",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3"
   }
